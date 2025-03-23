@@ -6,8 +6,6 @@ metadata:
 spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: patch-cm
-  imagePullSecrets:               
-    - name: argo-workflows-docker-secret 
   templates:
     - name: patch-cm
       container:
