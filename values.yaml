@@ -5,9 +5,7 @@ argo-workflows:
     # -- imagePullPolicy to apply to all containers
     pullPolicy: Always
     # -- Secrets with credentials to pull images from a private registry
-    pullSecrets: 
-      - name: argo-workflows-docker-secret
-    # - name: argo-pull-secret
+    pullSecrets: []
   
   ## Custom resource configuration
   crds:
