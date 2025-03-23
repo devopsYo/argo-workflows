@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argo-workflows-cr
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources: 
+      - workflowtaskresults
+    verbs:
+      - create
+      - patch
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - get
+      - patch
