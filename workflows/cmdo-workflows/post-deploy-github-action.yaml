@@ -5,19 +5,48 @@ metadata:
   namespace: argo
 spec:
   serviceAccountName: argo-workflows-sa
-  entrypoint: patch-cm
+  entrypoint: post-action
   templates:
-    - name: patch-cm
-      container:
+  - name: main
+    steps:
+    - - name: use-secret
+        template: secret-task
+
+    - name: secret-task
+      script:
         image: bitnami/kubectl:1.28.5
-        command: [sh, -c]
-        args:
-          - |
-            for cm in $(kubectl get configmap -n cmdo-argocd-notifications -l argocd.argoproj.io/instance=argocd-notifications -o jsonpath='{.items[*].metadata.name}'); do
-              echo $cm;
-              cm_data=$(kubectl get configmap $cm -n cmdo-argocd-notifications -o jsonpath='{.data}')
-              kubectl patch configmap argocd-notifications-cm -n argocd --type merge -p "{\"data\": $cm_data}" -o yaml
-            done;
+        command: ["sh", "-c"]
+        source: |
+          echo "The password is: $pat-github"
+      env:
+      - name: pat-github
+        valueFrom:
+          secretKeyRef:
+            name: post-deploy-secret
+            key: pat-github
+
+
+    #- name: post-action
+    #  container:
+    #    image: bitnami/kubectl:1.28.5
+    #    command: [sh, -c]
+    #    args:
+    #      - |
+    #        APP="{{inputs.parameters.app-name}}"
+    #        TOKEN="{{inputs.parameters.github-token}}"
+    #        NS="argocd"
+  #
+    #        DEPLOY=$(kubectl get application "$APP" -n "$NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
+    #        IMAGE=$(kubectl get deployment "$DEPLOY" -n "$NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
+    #        TAG="${IMAGE##*:}"
+  #
+    #        echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
+  #
+    #        curl -X POST \
+    #          -H "Authorization: token $TOKEN" \
+    #          -H "Accept: application/vnd.github+json" \
+    #          https://api.github.com/repos/<org>/<repo>/actions/workflows/<workflow_file.yml>/dispatches \
+    #          -d "{\"ref\": \"main\", \"inputs\": {\"image_tag\": \"$TAG\"}}"
 
 
 
