@@ -17,9 +17,9 @@ spec:
         image: bitnami/kubectl:1.28.5
         command: ["sh", "-c"]
         source: |
-          echo "The password is: $pat-github"
+          echo "The password is: $PAT_GITHUB"
       env:
-      - name: pat-github
+      - name: PAT_GITHUB
         valueFrom:
           secretKeyRef:
             name: post-deploy-secret
