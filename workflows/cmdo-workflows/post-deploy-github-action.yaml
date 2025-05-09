@@ -9,8 +9,8 @@ spec:
   templates:
     - name: post-action
       steps:
-        - - name: use-secret
-            template: secret-task
+        - name: use-secret
+          template: secret-task
   
     - name: secret-task
       script:
