@@ -7,11 +7,11 @@ spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: post-action
   templates:
-  - name: post-action
-    steps:
-    - - name: use-secret
-        template: secret-task
-
+    - name: post-action
+      steps:
+        - - name: use-secret
+            template: secret-task
+  
     - name: secret-task
       script:
         image: bitnami/kubectl:1.28.5
@@ -25,7 +25,6 @@ spec:
             name: post-deploy-secret
             key: pat-github
 
-
     #- name: post-action
     #  container:
     #    image: bitnami/kubectl:1.28.5
@@ -35,13 +34,13 @@ spec:
     #        APP="{{inputs.parameters.app-name}}"
     #        TOKEN="{{inputs.parameters.github-token}}"
     #        NS="argocd"
-  #
+    #
     #        DEPLOY=$(kubectl get application "$APP" -n "$NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
     #        IMAGE=$(kubectl get deployment "$DEPLOY" -n "$NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
     #        TAG="${IMAGE##*:}"
-  #
+    #
     #        echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
-  #
+    #
     #        curl -X POST \
     #          -H "Authorization: token $TOKEN" \
     #          -H "Accept: application/vnd.github+json" \
