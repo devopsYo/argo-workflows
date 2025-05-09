@@ -7,7 +7,7 @@ spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: post-action
   templates:
-  - name: main
+  - name: post-action
     steps:
     - - name: use-secret
         template: secret-task
