@@ -16,14 +16,15 @@ spec:
       script:
         image: bitnami/kubectl:1.28.5
         command: ["sh", "-c"]
-        source: |
-          echo "The password is: $PAT_GITHUB"
+        args:
+          - |
+            echo "The password is: $PAT_GITHUB"
       env:
-      - name: PAT_GITHUB
-        valueFrom:
-          secretKeyRef:
-            name: post-deploy-secret
-            key: pat-github
+        - name: PAT_GITHUB
+          valueFrom:
+            secretKeyRef:
+              name: post-deploy-secret
+              key: pat-github
 
     #- name: post-action
     #  container:
