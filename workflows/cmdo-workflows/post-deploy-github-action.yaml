@@ -1,5 +1,5 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: WorkflowTemplate
 metadata:
   name: post-deploy-github-action
   namespace: argo
@@ -15,7 +15,6 @@ spec:
         arguments:
           parameters:
           - name: app-name
-            value: "arc"
     - - name: post-action
         template: post-action-task
         arguments:
@@ -51,7 +50,6 @@ spec:
     inputs:
       parameters:
       - name: image-tag
-
     container:
       image: curlimages/curl:8.13.0
       command: [sh, -c]
