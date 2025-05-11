@@ -6,19 +6,20 @@ metadata:
 spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: post-action
+
   templates:
-    - name: post-action
-      steps:
-        - name: use-secret
-          template: secret-task
+  - name: post-action
+    steps:
+    - - name: use-secret
+        template: secret-task
   
-    - name: secret-task
-      script:
-        image: bitnami/kubectl:1.28.5
-        command: ["sh", "-c"]
-        args:
-          - |
-            echo "The password is: PAT_GITHUB;
+  - name: secret-task
+    conatainer:
+      image: bitnami/kubectl:1.28.5
+      command: ["sh", "-c"]
+      args:
+        - |
+          echo "The password is: PAT_GITHUB;
       #env:
       #  - name: PAT_GITHUB
       #    valueFrom:
