@@ -9,18 +9,19 @@ spec:
   arguments:
     parameters:
     - name: app-name
-      valueFrom:
-        supplied: {}
 
   templates:
   - name: post-deploy-github-action
+    inputs:
+      parameters:
+        - name: app-name
     steps:
     - - name: get-tag
         template: get-tag-task
         arguments:
           parameters:
           - name: app-name
-            value: "{{workflow.parameters.app-name}}"
+            value: "{{inputs.parameters.app-name}}"
     - - name: post-action
         template: post-action-task
         arguments:
