@@ -15,7 +15,7 @@ spec:
     inputs:
       parameters:
       - name: app-name
-        value: "arc"
+        value: ""
     steps:
     - - name: get-tag
         template: get-tag-task
