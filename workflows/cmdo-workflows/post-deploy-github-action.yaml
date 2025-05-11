@@ -44,7 +44,7 @@ spec:
           APP_NS="argocd"
           TARGET_NS=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.spec.destination.namespace}")
           DEPLOY=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
-          IMAGE=$(kubectl get deployment "$DEPLOY" -n "TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
+          IMAGE=$(kubectl get deployment "$DEPLOY" -n "$TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
           TAG="${IMAGE##*:}"
   
           echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
