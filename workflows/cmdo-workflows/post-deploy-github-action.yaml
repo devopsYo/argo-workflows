@@ -31,7 +31,8 @@ spec:
     outputs:
         parameters:
           - name: result
-            value: "{{steps.get-tag.outputs.result}}"
+            valueFrom:
+              path: /tmp/tag.txt
     container:
       image: bitnami/kubectl:1.28.5
       command: [sh, -c]
@@ -44,7 +45,7 @@ spec:
           IMAGE=$(kubectl get deployment "$DEPLOY" -n "$TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
           TAG="${IMAGE##*:}"
   
-          echo "$TAG"
+          echo "$TAG" > /tmp/tag.txt
 
   - name: post-action-task
     inputs:
