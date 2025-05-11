@@ -21,7 +21,7 @@ spec:
         arguments:
           parameters:
           - name: image-tag
-            value: "{{steps.get-tag.outputs.parameters.result}}" 
+            value: "{{steps.get-tag.outputs.result}}" 
   
 
   - name: get-tag-task
@@ -31,8 +31,7 @@ spec:
     outputs:
         parameters:
           - name: result
-            valueFrom:
-              path: /tmp/tag.txt
+            value: "{{steps.get-tag.outputs.result}}"
     container:
       image: bitnami/kubectl:1.28.5
       command: [sh, -c]
@@ -43,13 +42,14 @@ spec:
           TARGET_NS=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.spec.destination.namespace}")
           DEPLOY=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
           IMAGE=$(kubectl get deployment "$DEPLOY" -n "$TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
-          TAG="${IMAGE##*:}"
-          echo "$TAG" > /tmp/tag.txt
+          TAG="${IMAGE##*:}"  
+          echo "$TAG"
 
   - name: post-action-task
     inputs:
       parameters:
       - name: image-tag
+
     container:
       image: curlimages/curl:8.13.0
       command: [sh, -c]
