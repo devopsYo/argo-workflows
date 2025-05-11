@@ -26,7 +26,7 @@ rules:
       - patch
   - apiGroups: ["apps"]
     resources:
-      - deployment
+      - deployments
     verbs:
       - list
       - get
