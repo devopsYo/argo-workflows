@@ -15,7 +15,7 @@ spec:
         arguments:
           parameters:
           - name: app-name
-            value: "swagger-app"
+            value: "arc"
     - - name: post-action
         template: post-action-task
         arguments:
