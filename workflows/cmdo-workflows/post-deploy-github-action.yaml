@@ -10,8 +10,12 @@ spec:
   templates:
   - name: post-action
     steps:
-    - - name: use-secret
-        template: secret-task
+    - - name: print-tag
+        template: print-tag-task
+        arguments:
+          parameters:
+          - name: app-name
+            value: "arc"
   
   - name: secret-task
     container:
@@ -27,21 +31,20 @@ spec:
               name: post-deploy-secret
               key: pat-github
 
-    #- name: post-action
-    #  container:
-    #    image: bitnami/kubectl:1.28.5
-    #    command: [sh, -c]
-    #    args:
-    #      - |
-    #        APP="{{inputs.parameters.app-name}}"
-    #        TOKEN="{{inputs.parameters.github-token}}"
-    #        NS="argocd"
-    #
-    #        DEPLOY=$(kubectl get application "$APP" -n "$NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
-    #        IMAGE=$(kubectl get deployment "$DEPLOY" -n "$NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
-    #        TAG="${IMAGE##*:}"
-    #
-    #        echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
+  - name: print-tag-task
+    container:
+      image: bitnami/kubectl:1.28.5
+      command: [sh, -c]
+      args:
+        - |
+          APP="{{inputs.parameters.app-name}}"
+          NS="argocd"
+  
+          DEPLOY=$(kubectl get application "$APP" -n "$NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
+          IMAGE=$(kubectl get deployment "$DEPLOY" -n "$NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
+          TAG="${IMAGE##*:}"
+  
+          echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
     #
     #        curl -X POST \
     #          -H "Authorization: token $TOKEN" \
