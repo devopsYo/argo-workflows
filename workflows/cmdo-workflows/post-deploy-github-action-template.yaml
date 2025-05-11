@@ -9,7 +9,6 @@ spec:
   arguments:
     parameters:
     - name: app-name
-      value: ""
 
   templates:
   - name: post-deploy-github-action
@@ -18,7 +17,7 @@ spec:
         template: get-tag-task
         arguments:
           parameters:
-          - name: app-name
+          - name: app-name-1
             value: "{{workflow.parameters.app-name}}"
     - - name: post-action
         template: post-action-task
@@ -31,7 +30,7 @@ spec:
   - name: get-tag-task
     inputs:
       parameters:
-      - name: app-name
+      - name: app-name-1
     outputs:
         parameters:
           - name: result
@@ -42,7 +41,7 @@ spec:
       command: [sh, -c]
       args:
         - |
-          APP="{{inputs.parameters.app-name}}"
+          APP="{{inputs.parameters.app-name-1}}"
           APP_NS="argocd"
           TARGET_NS=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.spec.destination.namespace}")
           DEPLOY=$(kubectl get application "$APP" -n "$APP_NS" -o jsonpath="{.status.resources[?(@.kind=='Deployment')].name}")
