@@ -19,7 +19,7 @@ spec:
       command: ["sh", "-c"]
       args:
         - |
-          echo "The password is: PAT_GITHUB;
+          echo "The password is: PAT_GITHUB"
       #env:
       #  - name: PAT_GITHUB
       #    valueFrom:
