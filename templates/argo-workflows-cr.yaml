@@ -24,3 +24,10 @@ rules:
       - list
       - get
       - patch
+  - apiGroups: [""]
+    resources:
+      - deployment
+    verbs:
+      - list
+      - get
+      - watch
