@@ -18,13 +18,13 @@ spec:
         command: ["sh", "-c"]
         args:
           - |
-            echo "The password is: $PAT_GITHUB"
-      env:
-        - name: PAT_GITHUB
-          valueFrom:
-            secretKeyRef:
-              name: post-deploy-secret
-              key: pat-github
+            echo "The password is: PAT_GITHUB;
+      #env:
+      #  - name: PAT_GITHUB
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: post-deploy-secret
+      #        key: pat-github
 
     #- name: post-action
     #  container:
