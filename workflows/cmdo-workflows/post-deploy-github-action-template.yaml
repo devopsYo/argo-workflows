@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  name: post-deploy-github-action
+  name: post-deploy-github-action-template
 spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: post-deploy-github-action
@@ -14,7 +14,6 @@ spec:
         arguments:
           parameters:
           - name: app-name
-            value: "arc"
     - - name: post-action
         template: post-action-task
         arguments:
