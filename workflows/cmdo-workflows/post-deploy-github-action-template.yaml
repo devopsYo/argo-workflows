@@ -6,9 +6,9 @@ spec:
   serviceAccountName: argo-workflows-sa
   entrypoint: post-deploy-github-action
 
-  arguments:
-    parameters:
-    - name: app-name
+  #arguments:
+  #  parameters:
+  #  - name: app-name
 
   templates:
   - name: post-deploy-github-action
