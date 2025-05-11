@@ -18,7 +18,7 @@ spec:
         arguments:
           parameters:
           - name: app-name
-            value: "{{inputs.parameters.app-name}}"
+            value: "{{workflow.parameters.app-name}}"
     - - name: post-action
         template: post-action-task
         arguments:
