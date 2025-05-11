@@ -45,6 +45,7 @@ spec:
           IMAGE=$(kubectl get deployment "$DEPLOY" -n "$TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
           TAG="${IMAGE##*:}"  
           echo "$TAG"
+          echo "$TAG" > /tmp/tag.txt
 
   - name: post-action-task
     inputs:
