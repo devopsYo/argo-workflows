@@ -9,7 +9,8 @@ spec:
   arguments:
     parameters:
     - name: app-name
-      value: ""
+      valueFrom:
+        supplied: {}
 
   templates:
   - name: post-deploy-github-action
