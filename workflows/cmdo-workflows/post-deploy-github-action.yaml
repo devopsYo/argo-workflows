@@ -14,7 +14,7 @@ spec:
         template: secret-task
   
   - name: secret-task
-    conatainer:
+    container:
       image: bitnami/kubectl:1.28.5
       command: ["sh", "-c"]
       args:
