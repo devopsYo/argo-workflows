@@ -10,6 +10,13 @@ rules:
     verbs:
       - create
       - patch
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - applications
+    verbs:
+      - get
+      - list
   - apiGroups: [""]
     resources:
       - configmaps
