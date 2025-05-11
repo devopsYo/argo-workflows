@@ -21,7 +21,7 @@ spec:
         arguments:
           parameters:
           - name: image-tag
-            value: "{{steps.get-tag.outputs.result}}" 
+            value: "{{steps.get-tag.outputs.parameters.result}}" 
   
 
   - name: get-tag-task
@@ -31,7 +31,8 @@ spec:
     outputs:
         parameters:
           - name: result
-            value: "{{steps.get-tag.outputs.result}}"
+            valueFrom:
+              path: /tmp/tag.txt
     container:
       image: bitnami/kubectl:1.28.5
       command: [sh, -c]
