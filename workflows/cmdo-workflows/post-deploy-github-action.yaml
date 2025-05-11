@@ -5,36 +5,33 @@ metadata:
   namespace: argo
 spec:
   serviceAccountName: argo-workflows-sa
-  entrypoint: post-action
+  entrypoint: post-deploy-github-action
 
   templates:
-  - name: post-action
+  - name: post-deploy-github-action
     steps:
-    - - name: print-tag
-        template: print-tag-task
+    - - name: get-tag
+        template: get-tag-task
         arguments:
           parameters:
           - name: app-name
             value: "arc"
+    - - name: post-action
+        template: post-action-task
+        arguments:
+          parameters:
+          - name: image-tag
+            value: "{{steps.get-tag.outputs.result}}" 
   
-  - name: secret-task
-    container:
-      image: bitnami/kubectl:1.28.5
-      command: ["sh", "-c"]
-      args:
-        - |
-          echo "The password is: $PAT_GITHUB";
-      env:
-        - name: PAT_GITHUB
-          valueFrom:
-            secretKeyRef:
-              name: post-deploy-secret
-              key: pat-github
 
-  - name: print-tag-task
+  - name: get-tag-task
     inputs:
       parameters:
       - name: app-name
+    outputs:
+        parameters:
+          - name: result
+            value: "{{steps.get-tag.outputs.result}}"
     container:
       image: bitnami/kubectl:1.28.5
       command: [sh, -c]
@@ -47,13 +44,23 @@ spec:
           IMAGE=$(kubectl get deployment "$DEPLOY" -n "$TARGET_NS" -o jsonpath="{.spec.template.spec.containers[0].image}")
           TAG="${IMAGE##*:}"
   
-          echo "App: $APP | Deploy: $DEPLOY | Image: $IMAGE | Tag: $TAG"
+          echo "$TAG"
 
+  - name: post-action-task
+    inputs:
+      parameters:
+      - name: image-tag
+
+    container:
+      image: curlimages/curl:8.13.0
+      command: [sh, -c]
+      args:
+        - |
           curl -X POST \
             -H "Authorization: $PAT_GITHUB" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/devopsYo/apigee/actions/workflows/github-actions-demo.yml/dispatches \
-            -d "{\"ref\": \"main\", \"inputs\": {\"swagger_app_name\": \"$TAG\"}}"
+            -d "{\"ref\": \"main\", \"inputs\": {\"swagger_app_name\": \"{{inputs.parameters.image-tag}}\"}}"
       env:
         - name: PAT_GITHUB
           valueFrom:
