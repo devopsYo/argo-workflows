@@ -32,6 +32,9 @@ spec:
               key: pat-github
 
   - name: print-tag-task
+    inputs:
+      parameters:
+      - name: app-name
     container:
       image: bitnami/kubectl:1.28.5
       command: [sh, -c]
