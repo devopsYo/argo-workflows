@@ -12,7 +12,7 @@ spec:
         command: [sh, -c]
         args:
           - |
-            kubectl patch configmap argocd-notifications-cm -n argocd --type merge -p "{\"data\": {}}"
+            kubectl patch configmap argocd-notifications-cm -n argocd --type=json -p="[{\"op\": \"replace\", \"path\": \"/data\", \"value\": {}}]"
           #  for cm in $(kubectl get configmap -n cmdo-argocd-notifications -l argocd.argoproj.io/instance=argocd-notifications -o jsonpath='{.items[*].metadata.name}'); do
           #    echo $cm;
           #    cm_data=$(kubectl get configmap $cm -n cmdo-argocd-notifications -o jsonpath='{.data}')
