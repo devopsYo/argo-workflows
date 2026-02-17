@@ -610,7 +610,7 @@ argo-workflows:
     extraArgs: 
       - --auth-mode=server
       - --auth-mode=client
-      - --auth-mode=sso
+      - --sso-issuer=https://kubernetes.default.svc.cluster.local
   
     logging:
       # -- Set the logging level (one of: `debug`, `info`, `warn`, `error`)
