@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-workflows-local-admin-token
+  namespace: argo
+  annotations:
+    kubernetes.io/service-account.name: argo-workflows-local-admin-sa
+type: kubernetes.io/service-account-token
