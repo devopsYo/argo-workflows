@@ -609,7 +609,7 @@ argo-workflows:
     ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server/#options
     extraArgs: 
       - --auth-mode=server
-      - --namespaced=false
+      - --sso-delegate-rbac-to-local-serviceaccount=false
       
   
     logging:
