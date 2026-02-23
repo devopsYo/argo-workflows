@@ -609,7 +609,6 @@ argo-workflows:
     ## Ref: https://argo-workflows.readthedocs.io/en/stable/argo-server/#options
     extraArgs: 
       - --namespaced=false
-      - --access-control-allow-origin=* ```
       
   
     logging:
